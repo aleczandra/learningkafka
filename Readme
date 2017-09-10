@@ -1,0 +1,8 @@
+Step 1
+Using the Producer API to create a producer and send a message to more brokers.
+The producer requires minimum 3 properties to be set.
+Kafka doesn’t have any means for the data it stores; it is just an array of bytes; so when we want to send a string from a java application, we need a converter or a serializer e.g. StringSerializer.
+
+In order to test this we can open a consumer console and make it listen on the defined topic, for the defined brokers:
+    - bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 localhost:9093 --topic Topic-1
+After running the main method, the value that the Producer sent is seen into the consumer console.
