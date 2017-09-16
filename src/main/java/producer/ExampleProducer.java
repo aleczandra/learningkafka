@@ -1,10 +1,12 @@
 package producer;
 
 import java.util.Properties;
+import java.util.concurrent.ExecutionException;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.clients.producer.RecordMetadata;
 
 public class ExampleProducer {
 
@@ -23,8 +25,14 @@ public class ExampleProducer {
 
         ProducerRecord<String, String> record = new ProducerRecord<>(topic,key,value);
 
-        producer.send(record);
-
+        try {
+            RecordMetadata recordMetadata = producer.send(record).get();
+            System.out.println("Partition:" + recordMetadata.partition() + "Topic:" + recordMetadata.topic());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
 
         producer.close();
         System.out.println("Producer Code Completed");
